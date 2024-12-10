@@ -3,7 +3,7 @@ import pygame
 import random
 import sys
 import time
-
+#取得現在時間(ms)
 def current_milli_time():
     return time.time() * 1000
 
@@ -73,14 +73,15 @@ while running:
 
     # 控制遊戲速度
     pygame.time.delay(100)
-if running:
-    font = pygame.font.Font(None, 100)
-    score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
-    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
-    pygame.display.flip()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-#pygame.time.delay(3000)
+
+
+font = pygame.font.Font(None, 100)
+score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
+screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+pygame.display.flip()
+for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+        running = False
+pygame.time.delay(5000)
 pygame.quit()
 sys.exit()
