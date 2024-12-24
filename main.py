@@ -20,17 +20,17 @@ pygame.display.set_caption("打地鼠遊戲")
 background = pygame.image.load(os.path.join("assets", "bliss.jpg")).convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
-mole_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "gopher.png")), (100, 100))
+scorePlusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "gopher.png")), (100, 100))
 
 # 設置字體
 font = pygame.font.Font(None, 36)
 
 # 遊戲變量
 score = 0
-mole_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 50))
+scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 50))
 timer = current_milli_time()
-mole_interval = 1000  # 毫秒
-mole_update_time = timer + mole_interval
+scorePlusItem_interval = 1000  # 毫秒
+scorePlusItem_update_time = timer + scorePlusItem_interval
 game_time = 61000  # 60秒
 remaining_time:int = int(timer + game_time)
 start_time = timer
@@ -43,20 +43,24 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            if mole_position[0] <= mouse_pos[0] <= mole_position[0] + 100 and mole_position[1] <= mouse_pos[1] <= mole_position[1] + 100:
+            if scorePlusItem_position[0] <= mouse_pos[0] <= scorePlusItem_position[0] + 100 and scorePlusItem_position[1] <= mouse_pos[1] <= scorePlusItem_position[1] + 100:
                 score += 1
-                mole_position = (random.randint(0, 750), random.randint(0, 550))
-                mole_update_time = timer + mole_interval
+                scorePlusItem_position = (random.randint(0, 750), random.randint(0, 550))
+                scorePlusItem_update_time = timer + scorePlusItem_interval
+            elif scoreMinusItem_position[0] <= mouse_pos[0] <= scoreMinusItem_position[0] + 100 and scoreMinusItem_position[1] <= mouse_pos[1] <= scoreMinusItem_position[1] + 100:
+                score += 1
+                scoreMinusItem_position = (random.randint(0, 750), random.randint(0, 550))
+                scoreMinusItem_update_time = timer + scoreMinusItem_interval
 
     # 更新地鼠位置
     timer = current_milli_time()
-    if timer > mole_update_time:
-        mole_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 50))
-        mole_update_time = timer + mole_interval
+    if timer > scorePlusItem_update_time:
+        scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 50))
+        scorePlusItem_update_time = timer + scorePlusItem_interval
 
     # 繪製背景和地鼠
     screen.blit(background, (0, 0))
-    screen.blit(mole_image, mole_position)
+    screen.blit(scorePlusItem_image, scorePlusItem_position)
 
     # 更新時間
     remaining_time:int = int(game_time - timer + start_time)
