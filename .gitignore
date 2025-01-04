@@ -1,3 +1,6 @@
 .idea/
 .vscode/
 /.idea
+dist/
+build/
+main.spec
