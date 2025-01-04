@@ -5,7 +5,7 @@ import sys
 import time
 #取得現在時間(ms)
 def current_milli_time():
-    return time.time() * 1000
+    return int(time.time() * 1000)
 
 WIDTH = 1280
 HEIGHT = 720
@@ -21,7 +21,7 @@ background = pygame.image.load(os.path.join("assets", "bliss.jpg")).convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 scorePlusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "plus.webp")), (100, 318))
-scoreMinusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "gopher.png")), (100, 318))
+scoreMinusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "minus.png")), (100, 318))
 monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
 
 # 設置字體
@@ -31,7 +31,7 @@ font = pygame.font.Font(None, 36)
 score = 0
 scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
 scoreMinusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
-timer = current_milli_time()
+timer:int = current_milli_time()
 scorePlusItem_interval = 1000  # 毫秒
 scoreMinusItem_interval = 1000
 scorePlusItem_update_time = timer + scorePlusItem_interval
@@ -43,7 +43,6 @@ monster_appear = False
 monster_life = 0
 life = 3
 monster_pos = (0, 0)
-monster_timer = timer
 monster_spawn_time = timer + random.randint(5000, 25000)
 
 # 遊戲主循環
@@ -59,34 +58,38 @@ while running:
                 scorePlusItem_position = (random.randint(0, 750), random.randint(0, 550))
                 scorePlusItem_update_time = timer + scorePlusItem_interval
             elif scoreMinusItem_position[0] <= mouse_pos[0] <= scoreMinusItem_position[0] + 100 and scoreMinusItem_position[1] <= mouse_pos[1] <= scoreMinusItem_position[1] + 318:
-                score -= 1
+                score -= 10
                 scoreMinusItem_position = (random.randint(0, 750), random.randint(0, 550))
                 scoreMinusItem_update_time = timer + scoreMinusItem_interval
                 if score < 0:score = 0
+            elif monster_appear and monster_pos[0] <= mouse_pos[0] <= monster_pos[0] + 100 and monster_pos[1] <= mouse_pos[1] <= monster_pos[1] + 159:
+                monster_life -= 1
+                if monster_life == 0:
+                    score += 10
+                    monster_appear = False
+                    monster_spawn_time = timer + random.randint(5000, 25000)
     #怪物出現?
+    print(timer, monster_spawn_time)
     if score >= 5 and not monster_appear:
-        if timer < monster_spawn_time< timer+100:
+        if timer >= monster_spawn_time:
             monster_spawn_time = timer + random.randint(5000, 25000)
             monster_appear = True
             monster_life = random.randint(3, 5)
             monster_timer = timer
             monster_pos = random.randint(0, 750), random.randint(0, 550)
     match monster_life:
-        case 0:
-            monster_appear = False
         case 1:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster1.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
         case 2:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster2.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
         case 3:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster3.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
         case 4:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster4.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
         case 5:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster5.webp")), (100, 159))
-    if monster_appear:
-        screen.blit(monster_image, monster_pos)
-        if timer - monster_timer > 3000:
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
+    if (monster_appear and
+            timer - monster_spawn_time > 3000):
             life -= 1
             monster_appear = False
             monster_spawn_time = timer + random.randint(5000, 25000)
@@ -102,8 +105,10 @@ while running:
 
     # 繪製背景和地鼠
     screen.blit(background, (0, 0))
-    screen.blit(scorePlusItem_image, scorePlusItem_position)
     screen.blit(scoreMinusItem_image, scoreMinusItem_position)
+    screen.blit(scorePlusItem_image, scorePlusItem_position)
+    if monster_appear:
+        screen.blit(monster_image, monster_pos)
 
     # 更新時間
     remaining_time:int = int(game_time - timer + start_time)
@@ -128,9 +133,6 @@ font = pygame.font.Font(None, 100)
 score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
 screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 pygame.display.flip()
-for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-        running = False
 pygame.time.delay(5000)
 pygame.quit()
 sys.exit()
