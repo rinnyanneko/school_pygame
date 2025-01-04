@@ -1,3 +1,5 @@
+# Copyright © 2025 rinnyanneko. All rights reserved.
+
 import os
 import pygame
 import random
