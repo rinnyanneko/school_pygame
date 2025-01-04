@@ -79,14 +79,16 @@ while running:
             monster_pos = random.randint(0, 750), random.randint(0, 550)
     match monster_life:
         case 1:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster1.png")), (100, 159))
         case 2:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster2.png")), (100, 159))
         case 3:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster3.png")), (100, 159))
         case 4:
-            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster4.png")), (100, 159))
         case 5:
+            monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster5.png")), (100, 159))
+        case _:
             monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
     if (monster_appear and
             timer - monster_spawn_time > 3000):
