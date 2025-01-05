@@ -12,8 +12,9 @@ def current_milli_time():
 #play video
 def play_video(video_path, audio_path):
     cap = cv2.VideoCapture(video_path)
-    pygame.mixer.music.load(audio_path)
-    pygame.mixer.music.play()
+    music_player = pygame.mixer.music
+    music_player.load(audio_path)
+    music_player.play()
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -23,14 +24,14 @@ def play_video(video_path, audio_path):
         frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
         screen.blit(frame, (0, 0))
         pygame.display.flip()
-    pygame.mixer.music.stop()
+    music_player.stop()
 
 monster_timeout_video = os.path.join("assets","monster_timeout.mp4")
 monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 
 WIDTH = 1280
 HEIGHT = 720
-MONSTER_TIMEOUT = 3000 #ms
+MONSTER_TIMEOUT = 1000 #ms
 # 初始化 Pygame
 pygame.init()
 # 設置遊戲窗口
@@ -38,10 +39,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("打地鼠遊戲")
 
 # 加載圖片
-background = pygame.image.load(os.path.join("assets", "bliss.jpg")).convert()
+background = pygame.image.load(os.path.join("assets", "background.webp")).convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
-scorePlusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "plus.webp")), (100, 318))
+scorePlusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "Plus.png")), (100, 318))
 scoreMinusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "minus.png")), (100, 318))
 monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
 
@@ -66,6 +67,11 @@ life = 3
 monster_pos = (0, 0)
 monster_spawn_time = timer + random.randint(5000, 25000)
 
+# play bgm
+bgm = pygame.mixer.music
+bgm.load(os.path.join("assets", "bgm.MP3"))
+bgm.play()
+
 # 遊戲主循環
 running = True
 while running:
@@ -86,7 +92,7 @@ while running:
             elif monster_appear and monster_pos[0] <= mouse_pos[0] <= monster_pos[0] + 100 and monster_pos[1] <= mouse_pos[1] <= monster_pos[1] + 159:
                 monster_life -= 1
                 if monster_life == 0:
-                    score += 10
+                    score += 1
                     monster_appear = False
                     monster_spawn_time = timer + random.randint(5000, 25000)
     #怪物出現?
@@ -115,8 +121,10 @@ while running:
             life -= 1
             monster_appear = False
             play_video(monster_timeout_video, monster_timeout_audio)
+            bgm.play()
             monster_spawn_time = timer + random.randint(5000, 25000)
-
+    if life <= 0:
+        break
     # 更新地鼠位置
     timer = current_milli_time()
     if timer > scorePlusItem_update_time:
@@ -138,9 +146,9 @@ while running:
     if remaining_time <= 0:
         break
     # 繪製分數
-    score_text = font.render(f"Score: {score}", True, (0, 0, 0))
-    remaining_time_text = font.render(f"Time: {remaining_time // 1000}", True, (0, 0, 0))
-    life_text = font.render(f"Life: {life}", True, (0, 0, 0))
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    remaining_time_text = font.render(f"Time: {remaining_time // 1000}", True, (255, 255, 255))
+    life_text = font.render(f"Life: {life}", True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
     screen.blit(remaining_time_text, (10, 30))
     screen.blit(life_text, (10, 50))
@@ -150,10 +158,15 @@ while running:
 
     # 控制遊戲速度
     pygame.time.delay(100)
-
-
 font = pygame.font.Font(None, 100)
-score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
+if life <= 0:
+    score_text = font.render("GAME OVER", True, (255, 30, 30))
+elif remaining_time <= 0 and life > 0 and score < 100:
+    score_text = font.render("TIME'S UP", True, (255, 30, 30))
+elif remaining_time <= 0 and life > 0 and score >= 100:
+    score_text = font.render("YOU WIN", True, (255, 30, 30))
+else:
+    score_text = font.render("GAME INTERRUPTED", True, (255, 30, 30))
 screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 pygame.display.flip()
 pygame.time.delay(5000)
