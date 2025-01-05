@@ -5,15 +5,30 @@ import pygame
 import random
 import sys
 import time
+import cv2
 #取得現在時間(ms)
 def current_milli_time():
     return int(time.time() * 1000)
+#play video
+def play_video(video_path):
+    cap = cv2.VideoCapture(video_path)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        cv2.imshow("Video", frame)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
+
+monster_timeout_video = os.path.join("assets","monster_timeout.mp4")
 
 WIDTH = 1280
 HEIGHT = 720
 # 初始化 Pygame
 pygame.init()
-
+monster_timeout = os.path.join("assets","monster_timeout.mp4")
 # 設置遊戲窗口
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("打地鼠遊戲")
@@ -71,7 +86,6 @@ while running:
                     monster_appear = False
                     monster_spawn_time = timer + random.randint(5000, 25000)
     #怪物出現?
-    print(timer, monster_spawn_time)
     if score >= 5 and not monster_appear:
         if timer >= monster_spawn_time:
             monster_spawn_time = timer + random.randint(5000, 25000)
@@ -96,6 +110,7 @@ while running:
             timer - monster_spawn_time > 3000):
             life -= 1
             monster_appear = False
+            play_video(monster_timeout_video)
             monster_spawn_time = timer + random.randint(5000, 25000)
 
     # 更新地鼠位置
