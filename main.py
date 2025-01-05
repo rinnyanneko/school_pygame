@@ -10,25 +10,29 @@ import cv2
 def current_milli_time():
     return int(time.time() * 1000)
 #play video
-def play_video(video_path):
+def play_video(video_path, audio_path):
     cap = cv2.VideoCapture(video_path)
+    pygame.mixer.music.load(audio_path)
+    pygame.mixer.music.play()
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
-        cv2.imshow("Video", frame)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
-    cap.release()
-    cv2.destroyAllWindows()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.resize(frame, (WIDTH, HEIGHT))
+        frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+        screen.blit(frame, (0, 0))
+        pygame.display.flip()
+    pygame.mixer.music.stop()
 
 monster_timeout_video = os.path.join("assets","monster_timeout.mp4")
+monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 
 WIDTH = 1280
 HEIGHT = 720
+MONSTER_TIMEOUT = 3000 #ms
 # 初始化 Pygame
 pygame.init()
-monster_timeout = os.path.join("assets","monster_timeout.mp4")
 # 設置遊戲窗口
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("打地鼠遊戲")
@@ -107,10 +111,10 @@ while running:
         case _:
             monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
     if (monster_appear and
-            timer - monster_spawn_time > 3000):
+            (timer - monster_spawn_time) > MONSTER_TIMEOUT):
             life -= 1
             monster_appear = False
-            play_video(monster_timeout_video)
+            play_video(monster_timeout_video, monster_timeout_audio)
             monster_spawn_time = timer + random.randint(5000, 25000)
 
     # 更新地鼠位置
