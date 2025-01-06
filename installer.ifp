@@ -27,7 +27,7 @@ Header image = <main>
 Show Label = 1
 VisualStylesEnabled = 1
 [Files]
-Installation path = <ProgramFiles>\<Company>\<AppName>\
+Installation path = <ProgramFiles>\rinnyanneko\<AppName>\
 Autcip = 1
 [Uninstall]
 Vwau = 0
@@ -58,10 +58,10 @@ PlaySound = 0
 Allow = 0
 [Build]
 File = C:\Users\rinny\Documents\GitHub\school_pygame\output\Setup.exe
-SetupIconPath = ..\icons\ancient.ico
-UninstallIconPath = ..\icons\ancient.ico
+SetupIconPath = ..\icons\modern.ico
+UninstallIconPath = ..\icons\modern.ico
 CompressionMethod = 0
-CompressionLevel = 2
+CompressionLevel = 1
 [Updater]
 Allow = 0
 1 = <AppName>

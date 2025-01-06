@@ -13,12 +13,22 @@ print("Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.")
 #取得現在時間(ms)
 def current_milli_time():
     return int(time.time() * 1000)
+
+# set monster spawn time
+def set_monster_spawn_time():
+    if score < 25:
+        return timer + random.randint(7000, 25000)
+    elif 25 <= score < 50:
+        return timer + random.randint(5000, 20000)
+    elif 50 <= score < 75:
+        return timer + random.randint(3000, 15000)
+    elif 75 <= score < 100:
+        return timer + random.randint(2000, 10000)
+
 #play video
 def play_video(video_path, audio_path):
     cap = cv2.VideoCapture(video_path)
-    music_player = pygame.mixer.music
-    music_player.load(audio_path)
-    music_player.play()
+    pygame.mixer.Channel(1).play(pygame.mixer.Sound(audio_path))
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -28,14 +38,14 @@ def play_video(video_path, audio_path):
         frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
         screen.blit(frame, (0, 0))
         pygame.display.flip()
-    music_player.stop()
+    pygame.mixer.Channel(1).stop()
 
 monster_timeout_video = os.path.join("assets","monster_timeout.mp4")
 monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 
 WIDTH = 1280
 HEIGHT = 720
-MONSTER_TIMEOUT = 1000 #ms
+MONSTER_TIMEOUT = 3000 #ms
 # 初始化 Pygame
 pygame.init()
 # 設置遊戲窗口
@@ -69,15 +79,10 @@ monster_appear = False
 monster_life = 0
 life = 3
 monster_pos = (0, 0)
-monster_spawn_time = timer + random.randint(5000, 25000)
+monster_spawn_time = set_monster_spawn_time()
 
 # play bgm
-bgm = pygame.mixer.music
-bgm.load(os.path.join("assets", "bgm.MP3"))
-bgm.play()
-# time's up
-timeup_sfx = pygame.mixer.music
-timeup_sfx.load(os.path.join("assets", "timeup.MP3"))
+pygame.mixer.Channel(0).play(pygame.mixer.Sound(os.path.join("assets", "bgm.MP3")))
 
 # 遊戲主循環
 running = True
@@ -101,11 +106,11 @@ while running:
                 if monster_life == 0:
                     score += 1
                     monster_appear = False
-                    monster_spawn_time = timer + random.randint(5000, 25000)
+                    monster_spawn_time = set_monster_spawn_time()
     #怪物出現?
     if score >= 5 and not monster_appear:
         if timer >= monster_spawn_time:
-            monster_spawn_time = timer + random.randint(5000, 25000)
+            monster_spawn_time = set_monster_spawn_time()
             monster_appear = True
             monster_life = random.randint(3, 5)
             monster_timer = timer
@@ -124,12 +129,11 @@ while running:
         case _:
             monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
     if (monster_appear and
-            (timer - monster_spawn_time) > MONSTER_TIMEOUT):
+            (timer - monster_timer) > MONSTER_TIMEOUT):
             life -= 1
             monster_appear = False
             play_video(monster_timeout_video, monster_timeout_audio)
-            bgm.play()
-            monster_spawn_time = timer + random.randint(5000, 25000)
+            monster_spawn_time = set_monster_spawn_time()
     if life <= 0:
         break
     # 更新地鼠位置
@@ -159,25 +163,30 @@ while running:
     screen.blit(score_text, (10, 10))
     screen.blit(remaining_time_text, (10, 30))
     screen.blit(life_text, (10, 50))
-
+    if score >= 100:
+        break
     # 更新屏幕
     pygame.display.flip()
 
     # 控制遊戲速度
     pygame.time.delay(100)
 font = pygame.font.Font(None, 100)
+pygame.mixer.Channel(0).stop()
 if life <= 0:
     score_text = font.render("GAME OVER", True, (255, 30, 30))
+    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 elif remaining_time <= 0 and life > 0 and score < 100:
     score_text = font.render("TIME'S UP", True, (255, 30, 30))
-    timeup_sfx.play()
+    pygame.mixer.Channel(2).play(pygame.mixer.Sound(os.path.join("assets", "timeup.MP3")))
     screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 
-elif remaining_time <= 0 and life > 0 and score >= 100:
+elif life > 0 and score >= 100:
     score_text = font.render("YOU WIN", True, (255, 30, 30))
+    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
 else:
     score_text = font.render("GAME INTERRUPTED", True, (255, 30, 30))
     screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+    pygame.mixer.Channel(2).play(pygame.mixer.Sound(os.path.join("assets", "timeup.MP3")))
 
 pygame.display.flip()
 pygame.time.delay(5000)
