@@ -2,6 +2,7 @@
 # Copyright © 2025 rinnyanneko. All rights reserved.
 
 import os
+import keyboard
 import pygame
 import random
 import sys
@@ -44,18 +45,15 @@ def play_video(video_path, audio_path):
         frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
         screen.blit(frame, (0, 0))
         pygame.display.flip()
+        if keyboard.is_pressed("q"):
+            break
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 cap.release()
                 pygame.mixer.Channel(1).stop()
                 running = False
                 break
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    cap.release()
-                    pygame.mixer.Channel(1).stop()
-                    break
-        cv2.waitKey(10)
+        cv2.waitKey(11)
     cap.release()
     pygame.mixer.Channel(1).stop()
 
@@ -198,8 +196,7 @@ while running:
 font = pygame.font.Font(None, 100)
 pygame.mixer.Channel(0).stop()
 if life <= 0:
-    score_text = font.render("GAME OVER", True, (255, 30, 30))
-    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+    play_video(os.path.join("assets", "dead.mp4"), os.path.join("assets", "dead.mp3"))
 elif remaining_time <= 0 and life > 0 and score < 100:
     score_text = font.render("TIME'S UP", True, (255, 30, 30))
     pygame.mixer.Channel(2).play(pygame.mixer.Sound(os.path.join("assets", "timeup.MP3")))

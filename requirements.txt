@@ -2,3 +2,4 @@ pygame
 pyinstaller
 auto-py-to-exe
 opencv-python
+keyboard
