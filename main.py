@@ -10,6 +10,11 @@ import cv2
 
 print("Dark Deception ─ The beginning of darkness")
 print("Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.")
+print("This game is a fan-made game based on the game Dark Deception by Glowstick Entertainment.")
+print("This game is not affiliated with Glowstick Entertainment.")
+print("Make sure to read the LICENSE file before using this game.")
+running = True
+
 #取得現在時間(ms)
 def current_milli_time():
     return int(time.time() * 1000)
@@ -27,6 +32,7 @@ def set_monster_spawn_time():
 
 #play video
 def play_video(video_path, audio_path):
+    global running
     cap = cv2.VideoCapture(video_path)
     pygame.mixer.Channel(1).play(pygame.mixer.Sound(audio_path))
     while cap.isOpened():
@@ -38,6 +44,19 @@ def play_video(video_path, audio_path):
         frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
         screen.blit(frame, (0, 0))
         pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                cap.release()
+                pygame.mixer.Channel(1).stop()
+                running = False
+                break
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    cap.release()
+                    pygame.mixer.Channel(1).stop()
+                    break
+        cv2.waitKey(10)
+    cap.release()
     pygame.mixer.Channel(1).stop()
 
 monster_timeout_video = os.path.join("assets","monster_timeout.mp4")
@@ -80,12 +99,15 @@ monster_life = 0
 life = 3
 monster_pos = (0, 0)
 monster_spawn_time = set_monster_spawn_time()
+show_plus_item = True
+
+# play opening video
+play_video(os.path.join("assets", "opening.mp4"), os.path.join("assets", "opening.mp3"))
 
 # play bgm
 pygame.mixer.Channel(0).play(pygame.mixer.Sound(os.path.join("assets", "bgm.MP3")))
 
 # 遊戲主循環
-running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -95,7 +117,7 @@ while running:
             if scorePlusItem_position[0] <= mouse_pos[0] <= scorePlusItem_position[0] + 100 and scorePlusItem_position[1] <= mouse_pos[1] <= scorePlusItem_position[1] + 318:
                 score += 1
                 scorePlusItem_position = (random.randint(0, 750), random.randint(0, 550))
-                scorePlusItem_update_time = timer + scorePlusItem_interval
+                show_plus_item = False
             elif scoreMinusItem_position[0] <= mouse_pos[0] <= scoreMinusItem_position[0] + 100 and scoreMinusItem_position[1] <= mouse_pos[1] <= scoreMinusItem_position[1] + 318:
                 score -= 10
                 scoreMinusItem_position = (random.randint(0, 750), random.randint(0, 550))
@@ -141,6 +163,8 @@ while running:
     if timer > scorePlusItem_update_time:
         scorePlusItem_position = (random.randint(0, WIDTH - 159), random.randint(0, HEIGHT - 159))
         scorePlusItem_update_time = timer + scorePlusItem_interval
+        if random.randint(0, 1) == 0:
+            show_plus_item = True
     if timer > scoreMinusItem_update_time:
         scoreMinusItem_position = (random.randint(0, WIDTH - 159), random.randint(0, HEIGHT - 159))
         scoreMinusItem_update_time = timer + scoreMinusItem_interval
@@ -148,7 +172,8 @@ while running:
     # 繪製背景和地鼠
     screen.blit(background, (0, 0))
     screen.blit(scoreMinusItem_image, scoreMinusItem_position)
-    screen.blit(scorePlusItem_image, scorePlusItem_position)
+    if show_plus_item:
+        screen.blit(scorePlusItem_image, scorePlusItem_position)
     if monster_appear:
         screen.blit(monster_image, monster_pos)
 
