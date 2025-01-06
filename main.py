@@ -1,3 +1,4 @@
+# Dark Deception ─ The beginning of darkness
 # Copyright © 2025 rinnyanneko. All rights reserved.
 
 import os
@@ -6,6 +7,9 @@ import random
 import sys
 import time
 import cv2
+
+print("Dark Deception ─ The beginning of darkness")
+print("Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.")
 #取得現在時間(ms)
 def current_milli_time():
     return int(time.time() * 1000)
@@ -36,7 +40,7 @@ MONSTER_TIMEOUT = 1000 #ms
 pygame.init()
 # 設置遊戲窗口
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("打地鼠遊戲")
+pygame.display.set_caption("Dark Deception ─ The beginning of darkness")
 
 # 加載圖片
 background = pygame.image.load(os.path.join("assets", "background.webp")).convert()
@@ -71,6 +75,9 @@ monster_spawn_time = timer + random.randint(5000, 25000)
 bgm = pygame.mixer.music
 bgm.load(os.path.join("assets", "bgm.MP3"))
 bgm.play()
+# time's up
+timeup_sfx = pygame.mixer.music
+timeup_sfx.load(os.path.join("assets", "timeup.MP3"))
 
 # 遊戲主循環
 running = True
@@ -163,11 +170,15 @@ if life <= 0:
     score_text = font.render("GAME OVER", True, (255, 30, 30))
 elif remaining_time <= 0 and life > 0 and score < 100:
     score_text = font.render("TIME'S UP", True, (255, 30, 30))
+    timeup_sfx.play()
+    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+
 elif remaining_time <= 0 and life > 0 and score >= 100:
     score_text = font.render("YOU WIN", True, (255, 30, 30))
 else:
     score_text = font.render("GAME INTERRUPTED", True, (255, 30, 30))
-screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+    screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+
 pygame.display.flip()
 pygame.time.delay(5000)
 pygame.quit()
