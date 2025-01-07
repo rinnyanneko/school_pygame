@@ -1,202 +1,70 @@
+Dark Deception ─ The beginning of darkness 軟體授權合約
 
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+1. 序言
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+本軟體授權合約（以下簡稱「本合約」）係由 rinnyanneko及Keeoka（以下簡稱「授權人」）與任何取得、使用本軟體的個人或組織（以下簡稱「被授權人」）共同訂立。本合約旨在規範被授權人取得、使用本軟體「Dark Deception ─ The beginning of darkness」（以下簡稱「本軟體」）的權利與義務，並依據 Apache License, Version 2.0（以下簡稱「Apache 2.0」）之條款授權。
 
-   1. Definitions.
+2. 定義
 
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
+    本軟體：指由授權人開發、命名為「Dark Deception ─ The beginning of darkness」的軟體，以及所有相關文件（包括但不限於說明文件、原始碼、物件代碼、圖示、介面設計、測試數據等），以及所有衍生作品。
 
-      "Licensor" shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
+    衍生作品：指基於本軟體，透過修改、結合或其他方式所產生的任何形式的作品。
 
-      "Legal Entity" shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      "control" means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
+    著作權聲明：指標示本軟體著作權歸屬授權人的聲明，通常包含授權人的名稱、著作權標記（©）及年份。
 
-      "You" (or "Your") shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
+3. 授權條款
 
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
+    授權人依照 Apache 2.0 的條款，授予被授權人全球性、免版稅、非獨佔的權利，允許被授權人：
 
-      "Object" form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
+    自由使用：以任何目的（商業或非商業）使用、複製、修改、分發、表演、展示本軟體。
 
-      "Work" shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
+    建立衍生作品：基於本軟體創建衍生作品。
 
-      "Derivative Works" shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
+    再分發：以原始碼或二進位碼的形式分發本軟體或其衍生作品。
 
-      "Contribution" shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, "submitted"
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as "Not a Contribution."
+    散布：透過任何媒介散布本軟體或其衍生作品。
 
-      "Contributor" shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
+條件：
 
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
+    著作權聲明：被授權人必須在所有分發的副本中保留原始著作權聲明和本授權條款。
 
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
+    修改標示：對於修改版本，被授權人必須清楚標示修改部分。
 
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
+    授權條款傳遞：被授權人若再授權他人使用本軟體或其衍生作品，必須以與本合約相同的授權條款授權。
 
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
+    無背書：被授權人不得將本授權條款用於限制其他軟體，亦不得以本軟體或其名稱作為宣傳或推廣其產品或服務的依據，使他人誤認為授權人贊同或支持其產品或服務。
 
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
+4. 擔保與免責聲明
 
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
+本軟體「按原樣」提供，不附帶任何形式的明示或默示擔保，包括但不限於對軟體的適銷性、特定用途之適用性、無侵權、不侵犯他人智慧財產權等。授權人對因使用本軟體而造成的任何損害不負任何責任。
 
-      (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
+5. 終止
 
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
+若被授權人違反本合約的任何條款，授權人有權立即終止本授權。
 
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
+6. 爭議解決
 
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
+若因本合約發生任何爭議，雙方同意優先透過友好協商解決。若協商不成，雙方同意以中華民國法律為準，並以臺灣臺中地方法院為第一審法院。
 
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
+7. 生效日期與完整協議
 
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
+本合約自本軟體發布之日起生效。本合約為雙方就軟體授權事宜之完整協議，並取代先前所有口頭或書面之協議。
 
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
+8. 軟體更新
 
-   END OF TERMS AND CONDITIONS
+授權人有權對本軟體進行更新、修改或升級，並將新的版本提供給被授權人。被授權人同意接受授權人提供的軟體更新，並同意更新後的軟體仍受本合約約束。
 
-   APPENDIX: How to apply the Apache License to your work.
+9. 第三方軟體
 
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+本軟體可能包含或使用第三方開發的軟體（以下簡稱「第三方軟體」）。第三方軟體的授權條款可能與本合約不同。被授權人同意遵守第三方軟體的授權條款。授權人對第三方軟體不提供任何保證，且不對第三方軟體的任何問題或損害承擔責任。
 
-   Copyright [yyyy] [name of copyright owner]
+10. 遊戲內素材
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+本軟體中使用的所有素材（包括但不限於圖像、音樂、音效、第三方資源等）之著作權歸其原作者所有。被授權人使用這些素材時，應遵守其原始作者的相關授權條款。
 
-       http://www.apache.org/licenses/LICENSE-2.0
+11. 準據法與補充規定
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+本合約應依照中華民國法律解釋與適用。如有未盡事宜，悉依中華民國著作權法、營業祕密法及刑法商標侵害章節之相關規定。
+
+rinnyanneko, Keeoka
+2025-01-07
