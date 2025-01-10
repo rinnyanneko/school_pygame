@@ -9,7 +9,6 @@ import random
 import sys
 import time
 import cv2
-from PIL.ImageCms import Flags
 
 print("Dark Deception ─ The beginning of darkness")
 print("Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.")
@@ -24,6 +23,7 @@ monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 WIDTH = 1280
 HEIGHT = 720
 VERSION = "v1.1"
+VIDEO_WAIT = 16.3334  # ms
 
 # 初始化 Pygame
 pygame.init()
@@ -41,8 +41,11 @@ scoreMinusItem_image = pygame.transform.scale(pygame.image.load(os.path.join("as
 monster_image = pygame.transform.scale(pygame.image.load(os.path.join("assets", "monster.webp")), (100, 159))
 
 #取得現在時間(ms)
-def current_milli_time():
-    return int(time.time() * 1000)
+def current_milli_time(type):
+    if type == "int":
+        return int(time.time() * 1000)
+    elif type == "float":
+        return time.time() * 1000
 
 # set monster spawn time
 def set_monster_spawn_time():
@@ -58,27 +61,30 @@ def set_monster_spawn_time():
 #play video
 def play_video(video_path, audio_path):
     global running
+    update_time = current_milli_time("float")
     cap = cv2.VideoCapture(video_path)
     if audio_path is not None:
         pygame.mixer.Channel(1).play(pygame.mixer.Sound(audio_path))
     while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        frame = cv2.resize(frame, (WIDTH, HEIGHT))
-        frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-        screen.blit(frame, (0, 0))
-        pygame.display.flip()
-        if keyboard.is_pressed("q"):
-            break
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                cap.release()
-                pygame.mixer.Channel(1).stop()
-                pygame.quit()
-                sys.exit()
-        pygame.time.delay(13)
+        video_timer = current_milli_time("float")
+        if video_timer - update_time >= VIDEO_WAIT:
+            update_time = video_timer
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.resize(frame, (WIDTH, HEIGHT))
+            frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+            screen.blit(frame, (0, 0))
+            pygame.display.flip()
+            if keyboard.is_pressed("q"):
+                break
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    cap.release()
+                    pygame.mixer.Channel(1).stop()
+                    pygame.quit()
+                    sys.exit()
     cap.release()
     pygame.mixer.Channel(1).stop()
 
@@ -89,29 +95,32 @@ def opening_theme():
     font = pygame.font.Font(os.path.join("assets", "NotoSansTC-Regular.ttf"), 23)
     ver_text = font.render(VERSION, True, (169, 169, 169))
     cr_text = font.render("Copyright© 2025 rinnyanneko and Keeoka. All rights reserved.", True, (169, 169, 169))
+    update_time = current_milli_time("float")
     while wait:
         cap = cv2.VideoCapture(os.path.join("assets", "open_theme_loop.mp4"))
         while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = cv2.resize(frame, (WIDTH, HEIGHT))
-            frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-            screen.blit(frame, (0, 0))
-            screen.blit(ver_text, (WIDTH - 50, HEIGHT - 35))
-            screen.blit(cr_text, (5, HEIGHT - 35))
-            pygame.display.flip()
-            if keyboard.is_pressed("space"):
-                wait = False
-                break
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    cap.release()
-                    pygame.mixer.Channel(0).stop()
-                    pygame.quit()
-                    sys.exit()
-            pygame.time.delay(13)
+            timer = current_milli_time("float")
+            if timer - update_time >= VIDEO_WAIT:
+                update_time = timer
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame = cv2.resize(frame, (WIDTH, HEIGHT))
+                frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+                screen.blit(frame, (0, 0))
+                screen.blit(ver_text, (WIDTH - 50, HEIGHT - 35))
+                screen.blit(cr_text, (5, HEIGHT - 35))
+                pygame.display.flip()
+                if keyboard.is_pressed("space"):
+                    wait = False
+                    break
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        cap.release()
+                        pygame.mixer.Channel(0).stop()
+                        pygame.quit()
+                        sys.exit()
         cap.release()
     pygame.mixer.Channel(0).stop()
 
@@ -125,7 +134,7 @@ def main():
     score = 0
     scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
     scoreMinusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
-    timer: int = current_milli_time()
+    timer: int = current_milli_time("int")
     scorePlusItem_interval = 1000  # 毫秒
     scoreMinusItem_interval = 1000
     scorePlusItem_update_time = timer + scorePlusItem_interval
@@ -207,11 +216,11 @@ def main():
         if life <= 0:
             break
         # 更新地鼠位置
-        timer = current_milli_time()
+        timer = current_milli_time("int")
         if timer > scorePlusItem_update_time:
             scorePlusItem_position = (random.randint(0, WIDTH - 159), random.randint(0, HEIGHT - 159))
             scorePlusItem_update_time = timer + scorePlusItem_interval
-            if random.randint(0, 1) == 0:
+            if random.randint(0, 100) < 75:
                 show_plus_item = True
         if timer > scoreMinusItem_update_time:
             scoreMinusItem_position = (random.randint(0, WIDTH - 159), random.randint(0, HEIGHT - 159))
@@ -278,7 +287,7 @@ MONSTER_TIMEOUT = 3000  # ms
 score = 0
 scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
 scoreMinusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
-timer: int = current_milli_time()
+timer: int = current_milli_time("int")
 scorePlusItem_interval = 1000  # 毫秒
 scoreMinusItem_interval = 1000
 scorePlusItem_update_time = timer + scorePlusItem_interval
