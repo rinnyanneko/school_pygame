@@ -177,7 +177,7 @@ def main():
                         mouse_pos[1] <= monster_pos[1] + 159:
                     monster_life -= 1
                     if monster_life == 0:
-                        score += 1
+                        score += 3
                         monster_appear = False
                         monster_spawn_time = set_monster_spawn_time() + timer
         # 怪物出現?
