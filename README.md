@@ -2,12 +2,14 @@
 
 This is a project which made for our Pygame class, if there's anything we can do better, please inform us on issue page.
 
+Note that we don't have copyright of most assets in this project.
+
 Have fun!
 
--# Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.
+Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.
 
--# This game is a fan-made game based on the game Dark Deception by Glowstick Entertainment.
+This game is a fan-made game based on the game Dark Deception by Glowstick Entertainment.
 
--# This game is not affiliated with Glowstick Entertainment.
+This game is not affiliated with Glowstick Entertainment.
 
--# Make sure to read the LICENSE file before using this game.
+Make sure to read the LICENSE file before using this game.
