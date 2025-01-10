@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Dark Deception ─ The beginning of darkness
 # Copyright © 2025 rinnyanneko. All rights reserved.
 
@@ -8,6 +9,7 @@ import random
 import sys
 import time
 import cv2
+from PIL.ImageCms import Flags
 
 print("Dark Deception ─ The beginning of darkness")
 print("Copyright © 2025 rinnyanneko and Keeoka. All rights reserved.")
@@ -21,9 +23,11 @@ monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 
 WIDTH = 1280
 HEIGHT = 720
+VERSION = "v1.1"
 
 # 初始化 Pygame
 pygame.init()
+pygame.event.post(pygame.event.Event(101, info={'set': 'chinese'}))  # 设置语言环境为中文
 # 設置遊戲窗口
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dark Deception ─ The beginning of darkness")
@@ -55,7 +59,8 @@ def set_monster_spawn_time():
 def play_video(video_path, audio_path):
     global running
     cap = cv2.VideoCapture(video_path)
-    pygame.mixer.Channel(1).play(pygame.mixer.Sound(audio_path))
+    if audio_path is not None:
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound(audio_path))
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
@@ -71,22 +76,53 @@ def play_video(video_path, audio_path):
             if event.type == pygame.QUIT:
                 cap.release()
                 pygame.mixer.Channel(1).stop()
-                running = False
-                break
-        pygame.time.delay(5)
+                pygame.quit()
+                sys.exit()
+        pygame.time.delay(13)
     cap.release()
     pygame.mixer.Channel(1).stop()
 
-
+def opening_theme():
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound(os.path.join("assets", "open_theme_BGM.MP3")), loops=-1)
+    play_video(os.path.join("assets", "open_theme.mp4"), None)
+    wait = True
+    font = pygame.font.Font(os.path.join("assets", "NotoSansTC-Regular.ttf"), 23)
+    ver_text = font.render(VERSION, True, (169, 169, 169))
+    cr_text = font.render("Copyright© 2025 rinnyanneko and Keeoka. All rights reserved.", True, (169, 169, 169))
+    while wait:
+        cap = cv2.VideoCapture(os.path.join("assets", "open_theme_loop.mp4"))
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.resize(frame, (WIDTH, HEIGHT))
+            frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+            screen.blit(frame, (0, 0))
+            screen.blit(ver_text, (WIDTH - 50, HEIGHT - 35))
+            screen.blit(cr_text, (5, HEIGHT - 35))
+            pygame.display.flip()
+            if keyboard.is_pressed("space"):
+                wait = False
+                break
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    cap.release()
+                    pygame.mixer.Channel(0).stop()
+                    pygame.quit()
+                    sys.exit()
+            pygame.time.delay(13)
+        cap.release()
+    pygame.mixer.Channel(0).stop()
 
 
 # main function
 def main():
     # initialize game variables
-    global running
+    global running, monster_timer
     # 設置字體
-    font = pygame.font.Font(None, 36)
-    score = 5
+    font = pygame.font.Font(os.path.join("assets", "NotoSansTC-Regular.ttf"), 23)
+    score = 0
     scorePlusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
     scoreMinusItem_position = (random.randint(0, WIDTH - 50), random.randint(0, HEIGHT - 159))
     timer: int = current_milli_time()
@@ -113,7 +149,8 @@ def main():
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 if scorePlusItem_position[0] <= mouse_pos[0] <= scorePlusItem_position[0] + 100 and \
@@ -187,7 +224,7 @@ def main():
             screen.blit(scorePlusItem_image, scorePlusItem_position)
         if monster_appear:
             screen.blit(monster_image, monster_pos)
-        print(monster_spawn_time)
+
         # 更新時間
         remaining_time: int = int(game_time - timer + start_time)
         if remaining_time <= 0:
@@ -197,8 +234,8 @@ def main():
         remaining_time_text = font.render(f"Time: {remaining_time // 1000}", True, (255, 255, 255))
         life_text = font.render(f"Life: {life}", True, (255, 255, 255))
         screen.blit(score_text, (10, 10))
-        screen.blit(remaining_time_text, (10, 30))
-        screen.blit(life_text, (10, 50))
+        screen.blit(remaining_time_text, (10, 35))
+        screen.blit(life_text, (10, 60))
         if score >= 100:
             break
         # 更新屏幕
@@ -206,7 +243,7 @@ def main():
 
         # 控制遊戲速度
         pygame.time.delay(100)
-    font = pygame.font.Font(None, 100)
+    font = pygame.font.Font(os.path.join("assets", "NotoSansTC-SemiBold.ttf"), 77)
     pygame.mixer.Channel(0).stop()
     if life <= 0:
         play_video(os.path.join("assets", "dead.mp4"), os.path.join("assets", "dead.mp3"))
@@ -220,11 +257,17 @@ def main():
         score_text = font.render("TIME'S UP", True, (255, 30, 30))
         pygame.mixer.Channel(2).play(pygame.mixer.Sound(os.path.join("assets", "timeup.MP3")))
         screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - score_text.get_height() // 2))
+        font = pygame.font.Font(os.path.join("assets", "NotoSansTC-Regular.ttf"), 23)
+        retry_text = font.render("Press R to retry", True, (255, 255, 255))
+        retry_text_zh = font.render("按R重試", True, (255, 255, 255))
+        screen.blit(retry_text_zh, (WIDTH // 2 - retry_text_zh.get_width() // 2, HEIGHT // 2 + 50))
+        screen.blit(retry_text, (WIDTH // 2 - retry_text.get_width() // 2, HEIGHT // 2 + 100))
         pygame.display.flip()
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    break
+                    pygame.quit()
+                    sys.exit()
             if keyboard.is_pressed("r"):
                 main()
     elif life > 0 and score >= 100:
@@ -249,6 +292,7 @@ life = 3
 monster_pos = (0, 0)
 monster_spawn_time = set_monster_spawn_time()
 show_plus_item = True
+opening_theme()
 main()
 
 

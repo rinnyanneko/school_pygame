@@ -3,7 +3,7 @@
 ProjectFileVersion = 1.1
 [General]
 Program name = Dark Deception ─ The beginning of darkness
-Program version = 1.0
+Program version = 1.1
 Windows XP = 0
 Windows Server 2003 = 1
 Windows Vista = 1
@@ -51,11 +51,11 @@ Allows = 0
 Number = 1000
 Mask = #####-#####-#####-#####
 [SplashScreen]
-Image = 
+Image = C:\Users\rinny\Documents\GitHub\school_pygame\output\main\assets\阿加莎LOGO.png
 Sound = 
 Time = 2
 PlaySound = 0
-Allow = 0
+Allow = 1
 [Build]
 File = C:\Users\rinny\Documents\GitHub\school_pygame\output\Setup.exe
 SetupIconPath = ..\icons\modern.ico
@@ -92,9 +92,9 @@ exe
 C:\Users\rinny\Documents\GitHub\school_pygame\output\main\LICENSE
 11.1 KB
 
-C:\Users\rinny\Documents\GitHub\school_pygame\output\main\LICENSE.txt
-3.9 KB
-txt
+C:\Users\rinny\Documents\GitHub\school_pygame\output\main\APACHE-LICENSE
+11.3 KB
+
 [Licence_Begin]
 10959
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil Arial;}{\f1\fnil\fcharset1 Segoe UI Symbol;}{\f2\fnil\fcharset0 Arial;}{\f3\fswiss\fcharset134 Microsoft YaHei;}}
