@@ -22,7 +22,7 @@ monster_timeout_audio = os.path.join("assets","monster_timeout.mp3")
 
 WIDTH = 1280
 HEIGHT = 720
-VERSION = "v1.1"
+VERSION = "v1.1.1"
 VIDEO_WAIT = 16.3334  # ms
 
 # 初始化 Pygame
@@ -109,7 +109,7 @@ def opening_theme():
                 frame = cv2.resize(frame, (WIDTH, HEIGHT))
                 frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
                 screen.blit(frame, (0, 0))
-                screen.blit(ver_text, (WIDTH - 50, HEIGHT - 35))
+                screen.blit(ver_text, (WIDTH - 70, HEIGHT - 35))
                 screen.blit(cr_text, (5, HEIGHT - 35))
                 pygame.display.flip()
                 if keyboard.is_pressed("space"):
@@ -169,7 +169,7 @@ def main():
                     show_plus_item = False
                 elif scoreMinusItem_position[0] <= mouse_pos[0] <= scoreMinusItem_position[0] + 100 and \
                         scoreMinusItem_position[1] <= mouse_pos[1] <= scoreMinusItem_position[1] + 318:
-                    score -= 10
+                    score -= 3
                     scoreMinusItem_position = (random.randint(0, 750), random.randint(0, 550))
                     scoreMinusItem_update_time = timer + scoreMinusItem_interval
                     if score < 0: score = 0
@@ -177,7 +177,7 @@ def main():
                         mouse_pos[1] <= monster_pos[1] + 159:
                     monster_life -= 1
                     if monster_life == 0:
-                        score += 3
+                        score += 5
                         monster_appear = False
                         monster_spawn_time = set_monster_spawn_time() + timer
         # 怪物出現?
@@ -225,7 +225,6 @@ def main():
         if timer > scoreMinusItem_update_time:
             scoreMinusItem_position = (random.randint(0, WIDTH - 159), random.randint(0, HEIGHT - 159))
             scoreMinusItem_update_time = timer + scoreMinusItem_interval
-
         # 繪製背景和地鼠
         screen.blit(background, (0, 0))
         screen.blit(scoreMinusItem_image, scoreMinusItem_position)

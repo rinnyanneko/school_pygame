@@ -3,7 +3,7 @@
 ProjectFileVersion = 1.1
 [General]
 Program name = Dark Deception ─ The beginning of darkness
-Program version = 1.1
+Program version = 1.1.1
 Windows XP = 0
 Windows Server 2003 = 1
 Windows Vista = 1
@@ -51,7 +51,7 @@ Allows = 0
 Number = 1000
 Mask = #####-#####-#####-#####
 [SplashScreen]
-Image = C:\Users\rinny\Documents\GitHub\school_pygame\output\main\assets\阿加莎LOGO.png
+Image = C:\Users\rinny\Documents\GitHub\school_pygame\assets\阿加莎LOGO.png
 Sound = 
 Time = 2
 PlaySound = 0
